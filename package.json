@@ -1,0 +1,40 @@
+{
+  "name": "customer-api-e2e",
+  "version": "1.0.0",
+  "description": "Cypress E2E tests for Circuly Customer API",
+  "private": true,
+  "scripts": {
+    "cy:open": "cypress open",
+    "cy:run": "cypress run",
+    "cy:run:chrome": "cypress run --browser chrome",
+    "cy:run:headed": "cypress run --headed",
+    "api:all": "npx cypress run --browser chrome --spec \"cypress/e2e/customer-api/**/*.cy.js\"",
+    "api:orders": "npx cypress run --browser chrome --spec \"cypress/e2e/customer-api/01-orders/*.cy.js\"",
+    "api:customers": "npx cypress run --browser chrome --spec \"cypress/e2e/customer-api/02-customers/*.cy.js\"",
+    "api:invoices": "npx cypress run --browser chrome --spec \"cypress/e2e/customer-api/03-invoices/*.cy.js\"",
+    "api:payments": "npx cypress run --browser chrome --spec \"cypress/e2e/customer-api/04-payments/*.cy.js\"",
+    "api:subscriptions": "npx cypress run --browser chrome --spec \"cypress/e2e/customer-api/05-subscriptions/*.cy.js\"",
+    "api:deliveries": "npx cypress run --browser chrome --spec \"cypress/e2e/customer-api/06-deliveries/*.cy.js\"",
+    "api:draft-orders": "npx cypress run --browser chrome --spec \"cypress/e2e/customer-api/07-draft-orders/*.cy.js\"",
+    "api:transactions": "npx cypress run --browser chrome --spec \"cypress/e2e/customer-api/08-transactions/*.cy.js\"",
+    "api:recurring-payments": "npx cypress run --browser chrome --spec \"cypress/e2e/customer-api/09-recurring-payments/*.cy.js\"",
+    "api:product-tracking": "npx cypress run --browser chrome --spec \"cypress/e2e/customer-api/10-product-tracking/*.cy.js\"",
+    "api:product-variants": "npx cypress run --browser chrome --spec \"cypress/e2e/customer-api/11-product-variants/*.cy.js\"",
+    "api:retailers": "npx cypress run --browser chrome --spec \"cypress/e2e/customer-api/12-retailers/*.cy.js\"",
+    "api:vouchers": "npx cypress run --browser chrome --spec \"cypress/e2e/customer-api/13-vouchers/*.cy.js\"",
+    "api:css": "npx cypress run --browser chrome --spec \"cypress/e2e/customer-api/14-css/*.cy.js\""
+  },
+  "devDependencies": {
+    "cypress": "^13.17.0",
+    "cypress-iframe": "^1.0.1",
+    "cypress-mochawesome-reporter": "^3.8.2",
+    "mochawesome": "^7.1.3",
+    "mochawesome-merge": "^4.3.0",
+    "mochawesome-report-generator": "^6.2.0",
+    "prettier": "3.2.5"
+  },
+  "dependencies": {
+    "dayjs": "^1.11.13",
+    "pg": "^8.11.5"
+  }
+}

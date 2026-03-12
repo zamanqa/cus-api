@@ -40,27 +40,29 @@ export function getOrderStatusQuery(orderId) {
   return `SELECT order_id, status FROM orders WHERE order_id = '${orderId}'`;
 }
 
-export function getChargeableOrderIdQuery() {
+export function getChargeableOrderIdQuery(companyId) {
   return `
     SELECT o.order_id, o.payment_status, o.status, o.payment_provider, o.transaction_id, o.origin
     FROM orders o
-    WHERE payment_status IN ('payment_required')
-      AND status IN ('open')
-      AND payment_provider IN ('stripe')
-      AND origin IN ('cms')
+    WHERE o.company_id = '${companyId}'
+      AND o.payment_status IN ('payment_required')
+      AND o.status IN ('open')
+      AND o.payment_provider IN ('stripe')
+      AND o.origin IN ('cms')
     ORDER BY o.created_at DESC
     LIMIT 1
   `;
 }
 
-export function getInvoiceableOrderIdQuery() {
+export function getInvoiceableOrderIdQuery(companyId) {
   return `
     SELECT o.order_id, o.payment_status, o.status, o.payment_provider,
            o.transaction_id, o.origin, t.initial_invoice, t.invoice_number
     FROM orders o
     JOIN transactions t
       ON t.order_id = o.order_id AND t.company_id = o.company_id
-    WHERE o.payment_status IN ('pending')
+    WHERE o.company_id = '${companyId}'
+      AND o.payment_status IN ('pending')
       AND o.transaction_id IS NOT NULL
       AND t.initial_invoice = true
     ORDER BY o.created_at DESC

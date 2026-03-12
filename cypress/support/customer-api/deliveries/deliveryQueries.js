@@ -1,7 +1,7 @@
 // DB queries for Deliveries module
-// Note: API returns "shipping_date" but DB column is "billing_date"
+// Note: API returns "shipping_date" but DB column is "billing_date" in recurring_payments table
 
-// Get distinct billing dates from recurring_payments (returns top 5 most recent)
+// Get future billing dates from recurring_payments (ensures delivery data exists, avoids 404)
 export function getShippingDateFromDBQuery(companyId) {
   return `
     SELECT DISTINCT TO_CHAR(rp.billing_date, 'YYYY-MM-DD') as shipping_date
@@ -10,7 +10,8 @@ export function getShippingDateFromDBQuery(companyId) {
       AND rp.enabled = true
       AND rp.deleted_at IS NULL
       AND rp.billing_date IS NOT NULL
-    ORDER BY shipping_date DESC
+      AND rp.billing_date >= CURRENT_DATE
+    ORDER BY shipping_date ASC
     LIMIT 5
   `;
 }

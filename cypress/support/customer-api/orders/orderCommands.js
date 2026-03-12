@@ -1,4 +1,4 @@
-import { apiRequest } from '../_shared/apiClient';
+import { apiRequest, getCompanyId } from '../_shared/apiClient';
 import {
   getOrderIdQuery,
   getChargeableOrderIdQuery,
@@ -73,9 +73,10 @@ export function cancelOrder(orderId) {
   });
 }
 
-// Get chargeable order_id from DB (open, payment_required, stripe, cms)
+// Get chargeable order_id from DB (open, payment_required, stripe, cms) filtered by company
 export function getChargeableOrderIdFromDB() {
-  const query = getChargeableOrderIdQuery();
+  const companyId = getCompanyId();
+  const query = getChargeableOrderIdQuery(companyId);
   return cy.task('queryDb', query);
 }
 
@@ -84,9 +85,10 @@ export function chargeOrder(orderId) {
   return apiRequest('POST', `/orders/${orderId}/charge`);
 }
 
-// Get invoiceable order_id from DB (pending, has transaction with initial_invoice but no invoice_number)
+// Get invoiceable order_id from DB (pending, has transaction with initial_invoice) filtered by company
 export function getInvoiceableOrderIdFromDB() {
-  const query = getInvoiceableOrderIdQuery();
+  const companyId = getCompanyId();
+  const query = getInvoiceableOrderIdQuery(companyId);
   return cy.task('queryDb', query);
 }
 

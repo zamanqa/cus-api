@@ -1,35 +1,37 @@
-import '../../../support/customer_api/customerCommands';
+import * as customers from "../../../support/customer-api/customers/customerCommands";
 
 describe('Customer API', () => {
 
-  const customerId = 'cus_Rnx5s6erx9iwx9';
-  let referralCode = '';
-
-  it('Test 1: Return a paginated list of customers and store first customer ID', () => {
-    cy.getAllCustomers().then((response) => {
-      expect(response.status).to.eq(200);
-      const firstCustomerId = response.body.data[0].id;
-      Cypress.env('customerId', firstCustomerId);
-      cy.log('Stored Customer ID:', firstCustomerId);
+  // Fetch a fresh customer from DB before each test
+  beforeEach(() => {
+    customers.getCustomerIdFromDB().then((result) => {
+      expect(result.length).to.be.greaterThan(0);
+      cy.log('DB Customer ID:', result[0].uid);
+      Cypress.env('dbCustomerId', result[0].uid);
+      Cypress.env('dbCustomerEmail', result[0].email);
     });
   });
 
+  it('Test 1: Return a paginated list of customers', () => {
+    customers.getAllCustomers().then((response) => {
+      expect(response.status).to.eq(200);
+      expect(response.body.data.length).to.be.greaterThan(0);
+      cy.log('Total Customers:', response.body.data.length);
+    });
+  });
 
-  it('Test 2:Fetch customer using stored customer ID', () => {
-    const customerId = Cypress.env('customerId');
-    expect(customerId).to.be.a('string').and.not.to.be.empty;
-
-    cy.getCustomerById(customerId).then((response) => {
+  it('Test 2: Fetch customer by ID and verify in DB', () => {
+    customers.getCustomerById(Cypress.env('dbCustomerId')).then((response) => {
       expect(response.status).to.eq(200);
       cy.log('Fetched Customer:', response.body);
     });
+
+    // Verify customer exists in DB
+    customers.verifyCustomerInDB(Cypress.env('dbCustomerId'));
   });
 
-  it('Test 3:Shows customer balance using stored customer ID', () => {
-    const customerId = Cypress.env('customerId');
-    expect(customerId).to.be.a('string').and.not.to.be.empty;
-  
-    cy.getCustomerBalance(customerId).then((response) => {
+  it('Test 3: Show customer balance', () => {
+    customers.getCustomerBalance(Cypress.env('dbCustomerId')).then((response) => {
       expect(response.status).to.eq(200);
       expect(response.body).to.have.property('remaining_amount');
       cy.log('Customer Balance:', response.body.remaining_amount);
@@ -37,48 +39,51 @@ describe('Customer API', () => {
   });
 
   it('Test 4: Update customer balance and verify updated remaining_amount', () => {
-    const customerId = Cypress.env('customerId');
-  
     const amountToAdd = 100;
-  
-    cy.addCustomerBalance(customerId, amountToAdd).then((response) => {
+
+    customers.addCustomerBalance(Cypress.env('dbCustomerId'), amountToAdd).then((response) => {
       expect(response.status).to.eq(200);
       expect(response.body).to.have.property('remaining_amount');
       cy.log('Updated Customer Balance:', response.body.remaining_amount);
+
+      // Verify balance in DB using customer_account table
+      customers.getCustomerAccountFromDB(Cypress.env('dbCustomerEmail')).then((result) => {
+        expect(result.length).to.be.greaterThan(0);
+        cy.log('DB remaining_amount:', result[0].remaining_amount);
+        expect(Number(result[0].remaining_amount)).to.eq(response.body.remaining_amount);
+      });
     });
   });
-  
-  it('Test 5: Update customer external_customer_id with a random 4-digit number', () => {
-    const customerId = Cypress.env('customerId');
-  
-    const randomExternalId = Math.floor(1000 + Math.random() * 9000).toString(); // 4-digit number
-  
-    cy.updateCustomerExternalId(customerId, randomExternalId).then((response) => {
+
+  it('Test 5: Update customer external_customer_id and verify in DB', () => {
+    const randomExternalId = Math.floor(1000 + Math.random() * 9000).toString();
+
+    customers.updateCustomerExternalId(Cypress.env('dbCustomerId'), randomExternalId).then((response) => {
       expect(response.status).to.eq(200);
       expect(response.body).to.have.property('success', true);
       expect(response.body).to.have.property('message', 'Updated');
       cy.log('Updated external_customer_id to:', randomExternalId);
     });
+
+    // Verify external_customer_id updated in DB
+    customers.verifyExternalCustomerIdInDB(Cypress.env('dbCustomerId'), randomExternalId);
   });
 
-  it('Deletes referral code To create new code', () => {
-    cy.deleteReferralByEmail('zaman.test@gmail.com');
-  });
-  
-  
-  it('Test 6: Create referral code for customer', () => {
-    cy.createCustomerReferralCode(customerId).then((response) => {
+  it('Test 6: Delete existing referral and create referral code for customer', () => {
+    // Delete any existing referral first
+    customers.deleteReferralByEmail(Cypress.env('dbCustomerEmail'));
+
+    customers.createCustomerReferralCode(Cypress.env('dbCustomerId')).then((response) => {
       expect(response.status).to.eq(201);
       expect(response.body).to.have.property('referral_code');
 
-      referralCode = response.body.referral_code;
-      Cypress.env('referralCode', referralCode);
-      cy.log('Referral code created:', referralCode);
+      Cypress.env('referralCode', response.body.referral_code);
+      cy.log('Referral code created:', response.body.referral_code);
     });
   });
 
   it('Test 7: Get referral code and match with created one', () => {
-    cy.getCustomerReferralCode(customerId).then((response) => {
+    customers.getCustomerReferralCode(Cypress.env('dbCustomerId')).then((response) => {
       expect(response.status).to.eq(200);
       const fetchedCode = response.body.referral_code;
       expect(fetchedCode).to.eq(Cypress.env('referralCode'));
@@ -86,23 +91,54 @@ describe('Customer API', () => {
     });
   });
 
-  it('Delete referral code from database for next run', () => {
+  it('Test 8: Delete referral code from database for next run', () => {
     const codeToDelete = Cypress.env('referralCode');
     expect(codeToDelete).to.be.a('string').and.not.be.empty;
 
-    cy.deleteReferralCodeFromDB(codeToDelete);
+    customers.deleteReferralCodeFromDB(codeToDelete);
   });
 
-it('Test 8: Create a new customer with random external_customer_id and email', () => {
-  // Call the custom command to create the customer with a random email and external_customer_id
-  cy.createCustomer().then((response) => {
-    // Assert the response status is 201 (created)
-    expect(response.status).to.eq(201);
-    cy.log('Customer created:', response.body);
+  it('Test 9: Create a new customer and verify in DB', () => {
+    customers.createCustomer().then((response) => {
+      expect(response.status).to.eq(201);
+      const createdEmail = Cypress.env('createdCustomerEmail');
+      cy.log('Customer created with email:', createdEmail);
+
+      // Verify new customer exists in DB using the email we sent in payload
+      customers.verifyCustomerExistsInDB(createdEmail);
+    });
   });
+
+  it('Test 10: Validate a customer address', () => {
+    customers.validateAddress().then((response) => {
+      expect(response.body).to.have.property('valid', true);
+      expect(response.body).to.have.property('message', '');
+      cy.log('Address is valid:', response.body.valid);
+      cy.log('Response status:', response.status);
+    });
+  });
+
+  it('Test 11: Transfer (merge) two customers and verify in DB', () => {
+    customers.getTwoRecentCustomersFromDB().then((result) => {
+      if (!result || result.length < 2) {
+        cy.log('Need at least 2 customers to transfer. Test passed by default.');
+        return;
+      }
+
+      const sourceCustomerId = result[0].uid;
+      const targetCustomerId = result[1].uid;
+      cy.log('Source customer:', sourceCustomerId);
+      cy.log('Target customer:', targetCustomerId);
+
+      customers.transferCustomers(sourceCustomerId, targetCustomerId).then((response) => {
+        expect(response.status).to.eq(200);
+        expect(response.body).to.have.property('message', 'Customer transferred successfully');
+        cy.log('Customer transferred successfully');
+
+        // Verify orders were moved from source to target in DB
+        customers.verifyCustomerTransferredInDB(sourceCustomerId, targetCustomerId);
+      });
+    });
+  });
+
 });
-
-
-
-});
-

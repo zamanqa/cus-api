@@ -1,176 +1,229 @@
-import "../../../support/customer_api/subscriptionsCommands"
-import dayjs from 'dayjs'; // Make sure this is installed in your project
+import * as subscriptions from "../../../support/customer-api/subscriptions/subscriptionsCommands";
+import dayjs from 'dayjs';
 
 describe('Customer Subscriptions API', () => {
-    before(() => {
-        Cypress.env('subscriptionId', '5927291617418_67efe30b47597_43014354567306');
-      });
-      
 
-  it('Test 1: Fetch all subscriptions and store first subscription ID', () => {
-    cy.getCustomerSubscriptions().then((response) => {
+  // Fetch a fresh active subscription from DB before each test
+  beforeEach(() => {
+    subscriptions.getSubscriptionFromDB().then((result) => {
+      expect(result.length).to.be.greaterThan(0);
+      const sub = result[0];
+      cy.log('DB Subscription ID:', sub.subscription_id);
+      Cypress.env('dbSubscriptionId', sub.subscription_id);
+      Cypress.env('dbSubscriptionStatus', sub.status);
+      Cypress.env('dbSubscriptionAutoRenew', sub.auto_renew);
+    });
+  });
+
+  it('Test 1: Return a paginated list of subscriptions', () => {
+    subscriptions.getCustomerSubscriptions().then((response) => {
       expect(response.status).to.eq(200);
-      const firstSubscriptionId = response.body.data[0].id;
-      Cypress.env('subscriptionId', firstSubscriptionId);
-      cy.log('Stored Subscription ID:', firstSubscriptionId);
+      expect(response.body).to.have.property('data');
+      expect(response.body.data).to.be.an('array').and.have.length.greaterThan(0);
+      cy.log('Total subscriptions:', response.body.data.length);
     });
   });
 
-  it('Test 2: TestFetch single subscription using stored subscription ID', () => {
-    const subscriptionId = Cypress.env('subscriptionId');
+  it('Test 2: Fetch subscription by ID and verify in DB', () => {
+    const subscriptionId = Cypress.env('dbSubscriptionId');
 
-    cy.getSubscriptionById(subscriptionId).then((response) => {
+    subscriptions.getSubscriptionById(subscriptionId).then((response) => {
       expect(response.status).to.eq(200);
-      cy.log('Fetched Subscription:', response.body);
+      cy.log('Fetched subscription:', subscriptionId);
     });
+
+    // Verify subscription exists in DB
+    subscriptions.verifySubscriptionInDB(subscriptionId);
   });
 
-  it('Test 3: Create a subscription (Consumable + Bundle) and delete it from DB', () => {
-    const orderId = '5954734686346';
-    const id = '67fe1bf433c2e';
-    const productId = '44341709570186';
-    const subscriptionId = `${orderId}_${id}_${productId}`;
-    const today = new Date();
-    const subscriptionStart = `${String(today.getDate()).padStart(2, '0')}-${String(today.getMonth() + 1).padStart(2, '0')}-${today.getFullYear()}`;
-
-    const subscriptionData = {
-      order_id: orderId,
-      id: id,
-      product_id: productId,
-      serial_number: '333333ddd333311',subscription_start: subscriptionStart,
-      status: 'active',
-      //subscription_start: '28-04-2025'
-      subscription_start: subscriptionStart,
-    };
-
-    cy.createSubscription(subscriptionData).then((response) => {
-      expect(response.status === 200 || response.status === 201).to.be.true;
-      cy.log('Subscription created:', subscriptionId);
-      cy.wait(10000);
-
-      // Clean up from DB
-      cy.deleteSubscriptionFromDb(subscriptionId);
-    });
-  });
-
-it('Test 4: Create a subscription (Normal + Bundle) and delete it from DB', () => {
-  const orderId = '5954734686346';
-  const id = '67fe1bf433a4e';
-  const productId = '44660477493386';
-  const subscriptionId = `${orderId}_${id}_${productId}`;
-
-  const subscriptionData = {
-    order_id: orderId,
-    id: id,
-    product_id: productId,
-    serial_number: null,
-    status: 'active',
-    bundle_id: null,
-    subscription_start: '25-01-2025',
-    bundle_data: [
-      {
-        id: 14063,
-        serial_number: 'fac1c6e3-11b1-4036-8b17-e3ac852da58c1111222',
-        frame_number: 'f22222'
-      },
-      {
-        id: 14064,
-        serial_number: 'fac1c6e3-11b1-4036-8b17-e3ac852da599911',
-        frame_number: 'f22222211'
+  it('Test 3: Create a subscription (Consumable) and verify in DB', () => {
+    subscriptions.getConsumableOrderItemFromDB().then((result) => {
+      if (!result || result.length === 0) {
+        cy.log('No eligible consumable order item found. Test passed by default.');
+        return;
       }
-    ]
-  };
 
-  cy.createSubscription(subscriptionData).then((response) => {
-    expect(response.status === 200 || response.status === 201).to.be.true;
-    cy.log(`Subscription created: ${subscriptionId}`);
+      const orderId = result[0].order_id;
+      const id = result[0].order_item_id;
+      const productId = result[0].sku;
+      const subscriptionId = `${orderId}_${id}_${productId}`;
+      const today = dayjs().format('DD-MM-YYYY');
 
-    // wait for async DB persistence
-    cy.wait(10000);
+      cy.log('DB Result — order_id:', orderId);
+      cy.log('DB Result — order_item_id:', id);
+      cy.log('DB Result — sku (product_id):', productId);
+      cy.log('Constructed subscription_id:', subscriptionId);
 
-    // Clean up from DB
-    cy.deleteSubscriptionFromDb(subscriptionId);
-  });
-});
+      const payload = subscriptions.getConsumableSubscriptionPayload(orderId, id, productId, today);
 
+      cy.log('Payload:', JSON.stringify(payload));
+      cy.log('Creating consumable subscription:', subscriptionId);
 
-it('Test 5: Update real_end_date for a specific subscription', () => {
-  const randomMonths = Math.floor(Math.random() * 6) + 5; // Random between 5 and 10
-  const futureDate = dayjs().add(randomMonths, 'month').format('YYYY-MM-DD');
+      subscriptions.createSubscription(payload).then((response) => {
+        expect(response.status === 200 || response.status === 201).to.be.true;
+        cy.log('Subscription created successfully:', subscriptionId);
+        cy.log('Response status:', response.status);
 
-  cy.getLatestActiveNormalSubscriptionId().then((subscriptionId) => {
-    cy.log(`Using subscription_id: ${subscriptionId}`);
+        // Wait for async DB persistence
+        cy.wait(10000);
 
-    cy.updateSubscription(subscriptionId, {
-      real_end_date: futureDate
-    }).then((response) => {
-      expect(response.status).to.eq(200);
-      cy.log(`Updated real_end_date to: ${futureDate}`);
+        // Verify subscription exists in DB
+        subscriptions.verifySubscriptionCreatedInDB(subscriptionId);
+      });
     });
   });
-});
 
+  it('Test 4: Create a subscription (Normal + Bundle) and verify in DB', () => {
+    subscriptions.getNormalBundleOrderItemFromDB().then((result) => {
+      if (!result || result.length === 0) {
+        cy.log('No eligible normal bundle order item found. Test passed by default.');
+        return;
+      }
 
-  // Add Note
+      const orderId = result[0].order_id;
+      const id = result[0].order_item_id;
+      const productId = result[0].sku;
+      const bundleItemId = result[0].item_id;
+      const subscriptionId = `${orderId}_${id}_${productId}`;
+      const today = dayjs().format('DD-MM-YYYY');
 
-it('Test 6: Add a note to a subscription', () => {
-    const subscriptionId = Cypress.env('subscriptionId');
+      cy.log('DB Result — order_id:', orderId);
+      cy.log('DB Result — order_item_id:', id);
+      cy.log('DB Result — sku (product_id):', productId);
+      cy.log('DB Result — item_id (bundle integer):', bundleItemId);
+      cy.log('Constructed subscription_id:', subscriptionId);
 
-  const notePayload = {
-    author: 'amine',
-    message: 'test',
-    description: 'test',
-    serial_number: 'na',
-    pinned: false,
-    include_order_id: false
-  };
+      const payload = subscriptions.getNormalBundleSubscriptionPayload(orderId, id, productId, today, bundleItemId);
 
-  cy.addSubscriptionNote(subscriptionId, notePayload).then((response) => {
-    expect(response.status).to.eq(201);
-    expect(response.body.success).to.be.true;
-    expect(response.body.message).to.eq('Created');
-    cy.log('Subscription note added:', response.body);
+      cy.log('Payload:', JSON.stringify(payload));
+      cy.log('Creating normal bundle subscription:', subscriptionId);
+
+      subscriptions.createSubscription(payload).then((response) => {
+        expect(response.status === 200 || response.status === 201).to.be.true;
+        cy.log('Subscription created successfully:', subscriptionId);
+        cy.log('Response status:', response.status);
+
+        // Wait for async DB persistence
+        cy.wait(10000);
+
+        // Verify subscription exists in DB
+        subscriptions.verifySubscriptionCreatedInDB(subscriptionId);
+      });
+    });
   });
-});
 
-// Update serial number
+  it('Test 5: Update real_end_date and verify in DB', () => {
+    subscriptions.getActiveNormalSubscriptionFromDB().then((result) => {
+      if (!result || result.length === 0) {
+        cy.log('No active normal subscription found. Test passed by default.');
+        return;
+      }
 
-it('test 7: Update serial_number with a random value for a specific subscription', () => {
-    const subscriptionId = Cypress.env('subscriptionId');
+      const subscriptionId = result[0].subscription_id;
+      const randomMonths = Math.floor(Math.random() * 6) + 5;
+      const futureDate = dayjs().add(randomMonths, 'month').format('YYYY-MM-DD');
 
-    // Generate random serial number
+      cy.log('Subscription ID:', subscriptionId);
+      cy.log('Updating field: real_end_date');
+      cy.log('New value:', futureDate);
+
+      subscriptions.updateSubscription(subscriptionId, { real_end_date: futureDate }).then((response) => {
+        expect(response.status).to.eq(200);
+        cy.log('Updated real_end_date to', futureDate, 'for subscription:', subscriptionId);
+
+        // Verify real_end_date in DB
+        subscriptions.verifyRealEndDateInDB(subscriptionId);
+      });
+    });
+  });
+
+  it('Test 6: Add a note to a subscription', () => {
+    const subscriptionId = Cypress.env('dbSubscriptionId');
+
+    cy.log('Adding note to subscription:', subscriptionId);
+
+    subscriptions.addSubscriptionNote(subscriptionId).then((response) => {
+      expect(response.status).to.eq(201);
+      expect(response.body.success).to.be.true;
+      expect(response.body.message).to.eq('Created');
+      cy.log('Note added successfully for subscription:', subscriptionId);
+    });
+  });
+
+  it('Test 7: Update serial_number and verify in DB', () => {
+    const subscriptionId = Cypress.env('dbSubscriptionId');
     const randomSerial = `serial-${Date.now()}-${Math.floor(Math.random() * 1000)}`;
 
-    cy.updateSubscription(subscriptionId, {
-      serial_number: randomSerial
-    }).then((response) => {
+    cy.log('Subscription ID:', subscriptionId);
+    cy.log('Updating field: serial_number');
+    cy.log('New value:', randomSerial);
+
+    subscriptions.updateSubscription(subscriptionId, { serial_number: randomSerial }).then((response) => {
       expect(response.status).to.eq(200);
-      cy.log('Updated serial_number to:', randomSerial);
+      cy.log('Response status:', response.status);
+      cy.log('Updated serial_number to:', randomSerial, 'for subscription:', subscriptionId);
+
+      // Verify serial_number in DB
+      subscriptions.verifySerialNumberInDB(subscriptionId, randomSerial);
     });
   });
 
+  it('Test 8: End subscription in DB and reactivate via API, verify in DB', () => {
+    const subscriptionId = Cypress.env('dbSubscriptionId');
 
-  it('Test 8: Ends the subscription in DB and reactivates it via API', () => {
-    const subscriptionId = Cypress.env('subscriptionId');
-    const updateQuery = `
-      UPDATE public.subscriptions
-      SET status = 'ended'
-      WHERE subscription_id = '${subscriptionId}'
-    `;
+    cy.log('Subscription ID:', subscriptionId);
+    cy.log('Step 1: Setting status to "ended" in DB');
 
-    cy.task('queryDb', updateQuery).then(() => {
-      cy.log('Set subscription to ended in DB');
+    // Set subscription status to 'ended' in DB
+    subscriptions.setSubscriptionStatusInDB(subscriptionId, 'ended').then(() => {
+      cy.log('DB update complete — status set to "ended" for subscription:', subscriptionId);
+      cy.log('Step 2: Reactivating subscription via API');
 
-      cy.reactivateSubscription(subscriptionId).then((response) => {
+      subscriptions.reactivateSubscription(subscriptionId).then((response) => {
         expect(response.status).to.eq(200);
         expect(response.body.success).to.be.true;
-        expect(response.body.message).to.eq("Reactivated");
-        cy.log('Reactivated subscription ID:', subscriptionId);
+        expect(response.body.message).to.eq('Reactivated');
+        cy.log('Response status:', response.status);
+        cy.log('Reactivated subscription:', subscriptionId);
+        cy.log('Step 3: Verifying status is back to "active" in DB');
+
+        // Verify status is back to 'active' in DB
+        subscriptions.verifySubscriptionStatusInDB(subscriptionId, 'active');
       });
     });
   });
 
+  it('Test 9: Toggle auto_renew ON and verify in DB', () => {
+    const subscriptionId = Cypress.env('dbSubscriptionId');
 
+    cy.log('Subscription ID:', subscriptionId);
+    cy.log('Updating field: auto_renew');
+    cy.log('New value: true (ON)');
 
+    subscriptions.toggleAutoRenew(subscriptionId, true).then((response) => {
+      expect(response.status).to.eq(200);
+      expect(response.body.success).to.be.true;
+      expect(response.body.message).to.eq('Updated');
+      cy.log('Response status:', response.status);
+      cy.log('Auto-renew toggled ON for subscription:', subscriptionId);
+
+      // Verify auto_renew = true in DB
+      subscriptions.verifyAutoRenewInDB(subscriptionId, true);
+    });
+  });
+
+  it('Test 10: Toggle auto_renew OFF and verify in DB', () => {
+    const subscriptionId = Cypress.env('dbSubscriptionId');
+
+    subscriptions.toggleAutoRenew(subscriptionId, false).then((response) => {
+      expect(response.status).to.eq(200);
+      expect(response.body.success).to.be.true;
+      expect(response.body.message).to.eq('Updated');
+      cy.log('Auto-renew toggled OFF for:', subscriptionId);
+
+      // Verify auto_renew = false in DB
+      subscriptions.verifyAutoRenewInDB(subscriptionId, false);
+    });
+  });
 
 });

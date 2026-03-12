@@ -1,0 +1,40 @@
+{
+  "label": "payments.cy.js",
+  "spec": "cypress/e2e/customer-api/04-payments/payments.cy.js",
+  "time": "12.3.2026, 10:01:33",
+  "ok": true,
+  "passes": 1,
+  "failures": 0,
+  "total": 1,
+  "duration": 6928,
+  "detail": {
+    "passes": [
+      {
+        "title": "Customer Payments API Test 1: Issue a one-time payment and verify invoice created in DB",
+        "file": "cypress\\e2e\\customer-api\\04-payments\\payments.cy.js",
+        "duration": 6886
+      }
+    ],
+    "failures": [],
+    "stats": {
+      "suites": 1,
+      "tests": 1,
+      "passes": 1,
+      "pending": 0,
+      "failures": 0,
+      "testsRegistered": 1,
+      "passPercent": 100,
+      "pendingPercent": 0,
+      "other": 0,
+      "hasOther": false,
+      "skipped": 0,
+      "hasSkipped": false,
+      "start": "2026-03-12T09:01:25.888Z",
+      "end": "2026-03-12T09:01:32.816Z",
+      "duration": 6928
+    },
+    "specTotal": 1,
+    "specPasses": 1,
+    "specFailures": 0
+  }
+}

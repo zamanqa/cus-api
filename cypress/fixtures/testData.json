@@ -1,0 +1,14 @@
+{
+  "orders": {
+    "existingOrderId": "5953662091402"
+  },
+  "customers": {
+    "existingCustomerId": "cus_Rnx5s6erx9iwx9"
+  },
+  "subscriptions": {
+    "defaultSubscriptionId": "5927291617418_67efe30b47597_43014354567306"
+  },
+  "css": {
+    "testEmail": "c.test2489@gmail.com"
+  }
+}

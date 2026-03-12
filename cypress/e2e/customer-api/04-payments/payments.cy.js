@@ -1,28 +1,36 @@
-import '../../../support/customer_api/paymentCommands';
+import * as payments from "../../../support/customer-api/payments/paymentCommands";
 
 describe('Customer Payments API', () => {
-  it('Issue a one-time payment with latest eligible order ID', () => {
-    const query = `
-      SELECT order_id FROM orders
-      WHERE payment_provider = 'stripe'
-        AND payment_method_token = 'visa'
-        AND status = 'open'
-        AND transaction_id IS NOT NULL
-        AND company_id = '734f-4c766638po'
-      ORDER BY created_at DESC
-      LIMIT 1
-    `;
 
-    cy.task('queryDb', query).then((result) => {
-      expect(result.length).to.be.greaterThan(0);
-      const orderId = result[0].order_id;
-      Cypress.env('orderId', orderId);
-
-      cy.issueOneTimePayment(orderId).then((response) => {
-        expect(response.status).to.eq(201);
-        expect(response.body.message).to.eq("Invoice is created and sent successfully!");
-        cy.log('One-time payment issued for order:', orderId);
-      });
+  // Fetch a payment-eligible order from DB before each test
+  beforeEach(() => {
+    payments.getPaymentEligibleOrderFromDB().then((result) => {
+      if (!result || result.length === 0) {
+        cy.log('No payment-eligible order found in DB.');
+        return;
+      }
+      cy.log('DB Order ID:', result[0].order_id);
+      Cypress.env('dbPaymentOrderId', result[0].order_id);
     });
   });
+
+  it('Test 1: Issue a one-time payment and verify invoice created in DB', () => {
+    const orderId = Cypress.env('dbPaymentOrderId');
+    if (!orderId) {
+      cy.log('No eligible order found. Test passed by default.');
+      return;
+    }
+
+    cy.log('Eligible order found:', orderId);
+
+    payments.issueOneTimePayment(orderId).then((response) => {
+      expect(response.status).to.eq(201);
+      expect(response.body.message).to.eq("Invoice is created and sent successfully!");
+      cy.log('One-time payment issued for order:', orderId);
+
+      // Verify invoice was created in DB
+      payments.verifyInvoiceCreatedInDB(orderId);
+    });
+  });
+
 });

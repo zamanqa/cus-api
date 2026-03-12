@@ -1,140 +1,117 @@
-// In cypress/integration/createDraftOrder.cy.js
+import * as draftOrders from '../../../support/customer-api/draft-orders/draftOrdersCommands';
 
-import '../../../support/customer_api/draftOrdersCommands';  // Import custom commands
-import { customerApiConfig } from '../../../support/customer_api/config';  // Import API config for authentication
+describe('Draft Orders API', () => {
 
-describe('Create, Delete Draft Order and Visit Checkout', () => {
-  const draftOrderPayload = {
-    "remarks": "",
-    "charge_by_invoice": false,
-    "customer": {
-      "email": "christoph+58@circuly.io",
-      "phone": "+4928388",
-      "vat_number": "",
-      "external_customer_id": "5000145",
-      "default_locale": "de",
-      "date_of_birth": null,
-      "marketing_consent": false,
-      "billing": {
-        "address_addition": "12",
-        "alpha2": "de",
-        "alpha3": "",
-        "city": "Frankfurt am Main",
-        "company": "",
-        "country": "Germany",
-        "first_name": "Michael",
-        "last_name": "Otto",
-        "note": "",
-        "postal_code": "60320",
-        "region": null,
-        "street": "Fritz Str.",
-        "street_number": "21"
-      },
-      "shipping": {
-        "address_addition": "12",
-        "alpha2": "de",
-        "alpha3": "",
-        "city": "Frankfurt am Main",
-        "company": "",
-        "country": "Germany",
-        "first_name": "Zaman",
-        "last_name": "Zaman",
-        "note": "",
-        "postal_code": "60320",
-        "region": null,
-        "street": "Fritz Str.",
-        "street_number": "21"
-      }
-    },
-    "items": [
-      {
-        "discount_amount": 0,
-        "expected_revenue": 0,
-        "name": "Simple product no variant | Black / Small",
-        "price": 299,
-        "product_id": 11139,
-        "quantity": 1,
-        "sku": "43014354600074",
-        "sku_name": "24890000",
-        "subscription": true,
-        "subscription_duration": 1,
-        "subscription_duration_prepaid": 1,
-        "subscription_end": "2025-02-12",
-        "subscription_frequency": "monthly",
-        "subscription_frequency_interval": 1,
-        "subscription_start": "2025-01-13",
-        "subscription_type": "normal",
-        "thumbnail": "",
-        "variant_id": 15756,
-        "voucher_code": null,
-        "shop_variant_id": "43014354600074"
-      }
-    ]
-  };
+  // Fetch a valid subscription product variant from DB before each test
+  beforeEach(() => {
+    draftOrders.getSubscriptionProductVariantFromDB().then((result) => {
+      expect(result.length).to.be.greaterThan(0);
+      const variant = result[0];
 
-  // Test 1: Create a new draft order and visit checkout link
-  it('Test 1: should create a draft order and visit checkout link', () => {
-    cy.createDraftOrder(draftOrderPayload).then(({ id, order_checkout_link }) => {
-      cy.log(`Draft Order ID: ${id}`);
-      cy.log(`Checkout Link: ${order_checkout_link}`);
+      cy.log('DB product variant found:');
+      cy.log('Product ID:', variant.product_id);
+      cy.log('Variant ID:', variant.variant_id);
+      cy.log('SKU:', variant.sku);
+      cy.log('Shop Variant ID:', variant.shop_variant_id);
+      cy.log('Price:', variant.price);
+      cy.log('Product Name:', variant.product_name);
 
-      // Visit the checkout link
-      cy.visit(order_checkout_link);
-      cy.contains("Address & Payment").should("be.visible");
+      Cypress.env('dbProductId', Number(variant.product_id));
+      Cypress.env('dbVariantId', Number(variant.variant_id));
+      Cypress.env('dbSku', variant.sku);
+      Cypress.env('dbShopVariantId', variant.shop_variant_id);
+      Cypress.env('dbPrice', variant.price);
+      Cypress.env('dbProductName', `${variant.product_name} | ${variant.variant_name}`);
     });
   });
 
-  // Test 2: Fetch all draft orders and save the first ID
-  it('Test 2: should fetch all draft orders and save the first ID', () => {
-    cy.getAllDraftOrders().then((firstOrder) => {
-      expect(firstOrder, 'First draft order should exist').to.exist;
-      expect(firstOrder.id, 'First draft order should have an ID').to.exist;
+  it('Test 1: Create a new draft order with dynamic product data and verify in DB', () => {
+    const productId = Cypress.env('dbProductId');
+    const variantId = Cypress.env('dbVariantId');
+    const sku = Cypress.env('dbSku');
+    const shopVariantId = Cypress.env('dbShopVariantId');
+    const price = Cypress.env('dbPrice');
+    const productName = Cypress.env('dbProductName');
 
-      // Log the saved ID and store it for later use
-      cy.log(`Saved Draft Order ID: ${firstOrder.id}`);
-      Cypress.env('savedDraftOrderId', firstOrder.id);  // Save the ID for later use
+    const payload = draftOrders.getDraftOrderPayload(
+      productId, variantId, sku, shopVariantId, price, productName
+    );
+
+    cy.log('Creating draft order with:');
+    cy.log('Product ID:', productId);
+    cy.log('Variant ID:', variantId);
+    cy.log('SKU:', sku);
+    cy.log('Price:', price);
+
+    draftOrders.createDraftOrder(payload).then((response) => {
+      expect(response.status).to.eq(201);
+      expect(response.body).to.have.property('id');
+      expect(response.body).to.have.property('order_checkout_link');
+
+      const draftOrderId = response.body.id;
+      const checkoutLink = response.body.order_checkout_link;
+
+      cy.log('Draft Order created successfully');
+      cy.log('Draft Order ID:', draftOrderId);
+      cy.log('Checkout Link:', checkoutLink);
+
+      Cypress.env('createdDraftOrderId', draftOrderId);
+
+      // Verify draft order exists in DB
+      draftOrders.verifyDraftOrderCreatedInDB(draftOrderId);
     });
   });
 
-  // Test 3: Fetch a specific draft order by ID and validate its content
-  it('Test 3: should fetch a specific draft order by ID', () => {
-    const draftOrderId = Cypress.env('savedDraftOrderId');  // Retrieve the saved draft order ID
+  it('Test 2: Fetch all draft orders and save the first ID', () => {
+    draftOrders.getAllDraftOrders().then((response) => {
+      expect(response.status).to.eq(200);
 
-    // Ensure the ID exists
+      const orders = response.body.data;
+      expect(orders).to.be.an('array').and.have.length.greaterThan(0);
+
+      const firstOrder = orders[0];
+
+      cy.log('Total draft orders returned:', orders.length);
+      cy.log('First Draft Order ID:', firstOrder.id);
+      cy.log('First Draft Order Status:', firstOrder.status);
+      cy.log('First Draft Order Checkout Link:', firstOrder.order_checkout_link);
+
+      Cypress.env('savedDraftOrderId', firstOrder.id);
+    });
+  });
+
+  it('Test 3: Fetch a specific draft order by ID', () => {
+    const draftOrderId = Cypress.env('savedDraftOrderId');
     expect(draftOrderId, 'Draft Order ID should exist').to.exist;
 
-    // Send a GET request using the saved ID to fetch the specific draft order details
-    cy.request({
-      method: 'GET',
-      url: `${customerApiConfig.baseUrl}/api/${customerApiConfig.apiVersion}/draft-orders/${draftOrderId}`,
-      auth: customerApiConfig.auth,
-      headers: { 'Content-Type': 'application/json' },
-      timeout: 20000
-    }).then((response) => {
-      expect(response.status).to.eq(200);  // Ensure the response status is 200 (OK)
+    cy.log('Fetching draft order by ID:', draftOrderId);
+
+    draftOrders.getDraftOrderById(draftOrderId).then((response) => {
+      expect(response.status).to.eq(200);
+
       const order = response.body;
+      expect(order).to.have.property('id', draftOrderId);
+      expect(order).to.have.property('order_checkout_link');
 
-      // Assert that the draft order has the expected structure
-      expect(order).to.have.property('id', draftOrderId);  // Ensure the fetched order ID matches the saved one
-      expect(order).to.have.property('order_checkout_link');  // Ensure the order has the checkout link
-
-      // Log the fetched draft order details
-      cy.log(`Fetched Draft Order ID: ${order.id}`);
-      cy.log(`Checkout Link: ${order.order_checkout_link}`);
+      cy.log('Fetched Draft Order ID:', order.id);
+      cy.log('Status:', order.status);
+      cy.log('Checkout Link:', order.order_checkout_link);
+      cy.log('Created At:', order.created_at);
     });
   });
 
-it('Test 4: should delete a specific draft order by ID', () => {
-  const draftOrderId = Cypress.env('savedDraftOrderId');  // Retrieve the saved draft order ID
+  it('Test 4: Delete a specific draft order by ID and verify in DB', () => {
+    const draftOrderId = Cypress.env('savedDraftOrderId');
+    expect(draftOrderId, 'Draft Order ID should exist').to.exist;
 
-  // Ensure the ID exists
-  expect(draftOrderId, 'Draft Order ID should exist').to.exist;
+    cy.log('Deleting draft order with ID:', draftOrderId);
 
-  // Delete the draft order using the custom command with the updated 20-second timeout
-  cy.deleteDraftOrderById(draftOrderId).then(() => {
-    // Log the successful deletion (this happens after the DELETE request finishes)
-    cy.log(`Draft Order with ID ${draftOrderId} deleted successfully.`);
+    draftOrders.deleteDraftOrderById(draftOrderId).then((response) => {
+      expect(response.status).to.eq(200);
+      cy.log('Draft Order deleted successfully, ID:', draftOrderId);
+
+      // Verify draft order is soft-deleted in DB
+      draftOrders.verifyDraftOrderDeletedInDB(draftOrderId);
+    });
   });
-});
-
 });

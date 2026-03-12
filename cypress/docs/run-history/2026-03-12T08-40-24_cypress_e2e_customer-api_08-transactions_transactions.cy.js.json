@@ -1,0 +1,45 @@
+{
+  "label": "transactions.cy.js",
+  "spec": "cypress/e2e/customer-api/08-transactions/transactions.cy.js",
+  "time": "12.3.2026, 09:40:24",
+  "ok": true,
+  "passes": 2,
+  "failures": 0,
+  "total": 2,
+  "duration": 7983,
+  "detail": {
+    "passes": [
+      {
+        "title": "Customer Transactions API Test 1: Fetch all transactions and log details",
+        "file": "cypress\\e2e\\customer-api\\08-transactions\\transactions.cy.js",
+        "duration": 6464
+      },
+      {
+        "title": "Customer Transactions API Test 2: Fetch single transaction by ID and verify in DB",
+        "file": "cypress\\e2e\\customer-api\\08-transactions\\transactions.cy.js",
+        "duration": 1468
+      }
+    ],
+    "failures": [],
+    "stats": {
+      "suites": 1,
+      "tests": 2,
+      "passes": 2,
+      "pending": 0,
+      "failures": 0,
+      "testsRegistered": 2,
+      "passPercent": 100,
+      "pendingPercent": 0,
+      "other": 0,
+      "hasOther": false,
+      "skipped": 0,
+      "hasSkipped": false,
+      "start": "2026-03-12T08:40:16.019Z",
+      "end": "2026-03-12T08:40:24.002Z",
+      "duration": 7983
+    },
+    "specTotal": 2,
+    "specPasses": 2,
+    "specFailures": 0
+  }
+}

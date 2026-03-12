@@ -1,0 +1,497 @@
+{
+  "label": "*.cy.js",
+  "spec": "cypress/e2e/customer-api/**/*.cy.js",
+  "time": "12.3.2026, 09:50:05",
+  "ok": false,
+  "passes": 85,
+  "failures": 4,
+  "total": 89,
+  "duration": 412885,
+  "detail": {
+    "passes": [
+      {
+        "title": "Customer API Test 1: Return a paginated list of customers",
+        "file": "cypress\\e2e\\customer-api\\02-customers\\customers.cy.js",
+        "duration": 1373
+      },
+      {
+        "title": "Customer API Test 2: Fetch customer by ID and verify in DB",
+        "file": "cypress\\e2e\\customer-api\\02-customers\\customers.cy.js",
+        "duration": 1283
+      },
+      {
+        "title": "Customer API Test 3: Show customer balance",
+        "file": "cypress\\e2e\\customer-api\\02-customers\\customers.cy.js",
+        "duration": 1179
+      },
+      {
+        "title": "Customer API Test 4: Update customer balance and verify updated remaining_amount",
+        "file": "cypress\\e2e\\customer-api\\02-customers\\customers.cy.js",
+        "duration": 1305
+      },
+      {
+        "title": "Customer API Test 5: Update customer external_customer_id and verify in DB",
+        "file": "cypress\\e2e\\customer-api\\02-customers\\customers.cy.js",
+        "duration": 1640
+      },
+      {
+        "title": "Customer API Test 6: Delete existing referral and create referral code for customer",
+        "file": "cypress\\e2e\\customer-api\\02-customers\\customers.cy.js",
+        "duration": 1574
+      },
+      {
+        "title": "Customer API Test 7: Get referral code and match with created one",
+        "file": "cypress\\e2e\\customer-api\\02-customers\\customers.cy.js",
+        "duration": 1180
+      },
+      {
+        "title": "Customer API Test 8: Delete referral code from database for next run",
+        "file": "cypress\\e2e\\customer-api\\02-customers\\customers.cy.js",
+        "duration": 207
+      },
+      {
+        "title": "Customer API Test 9: Create a new customer and verify in DB",
+        "file": "cypress\\e2e\\customer-api\\02-customers\\customers.cy.js",
+        "duration": 1407
+      },
+      {
+        "title": "Customer API Test 10: Validate a customer address",
+        "file": "cypress\\e2e\\customer-api\\02-customers\\customers.cy.js",
+        "duration": 2403
+      },
+      {
+        "title": "Customer API Test 11: Transfer (merge) two customers and verify in DB",
+        "file": "cypress\\e2e\\customer-api\\02-customers\\customers.cy.js",
+        "duration": 1723
+      },
+      {
+        "title": "Customer Invoices API Test 1: Return a paginated list of invoices",
+        "file": "cypress\\e2e\\customer-api\\03-invoices\\invoices.cy.js",
+        "duration": 1325
+      },
+      {
+        "title": "Customer Invoices API Test 2: Fetch invoice by ID and verify in DB",
+        "file": "cypress\\e2e\\customer-api\\03-invoices\\invoices.cy.js",
+        "duration": 1627
+      },
+      {
+        "title": "Customer Invoices API Test 3: Settle the latest unpaid invoice and verify paid in DB",
+        "file": "cypress\\e2e\\customer-api\\03-invoices\\invoices.cy.js",
+        "duration": 4638
+      },
+      {
+        "title": "Customer Invoices API Test 4: Refund the latest paid invoice and verify in DB",
+        "file": "cypress\\e2e\\customer-api\\03-invoices\\invoices.cy.js",
+        "duration": 3883
+      },
+      {
+        "title": "Customer Invoices API Test 5: Get detailed invoices list",
+        "file": "cypress\\e2e\\customer-api\\03-invoices\\invoices.cy.js",
+        "duration": 26691
+      },
+      {
+        "title": "Customer Invoices API Test 6: Download invoice as PDF and verify in DB",
+        "file": "cypress\\e2e\\customer-api\\03-invoices\\invoices.cy.js",
+        "duration": 2096
+      },
+      {
+        "title": "Customer Invoices API Test 7: Get invoice with items and verify in DB",
+        "file": "cypress\\e2e\\customer-api\\03-invoices\\invoices.cy.js",
+        "duration": 1668
+      },
+      {
+        "title": "Customer Subscriptions API Test 1: Return a paginated list of subscriptions",
+        "file": "cypress\\e2e\\customer-api\\05-subscriptions\\subscriptions.cy.js",
+        "duration": 6850
+      },
+      {
+        "title": "Customer Subscriptions API Test 2: Fetch subscription by ID and verify in DB",
+        "file": "cypress\\e2e\\customer-api\\05-subscriptions\\subscriptions.cy.js",
+        "duration": 1660
+      },
+      {
+        "title": "Customer Subscriptions API Test 3: Create a subscription (Consumable) and verify in DB",
+        "file": "cypress\\e2e\\customer-api\\05-subscriptions\\subscriptions.cy.js",
+        "duration": 11411
+      },
+      {
+        "title": "Customer Subscriptions API Test 4: Create a subscription (Normal + Bundle) and verify in DB",
+        "file": "cypress\\e2e\\customer-api\\05-subscriptions\\subscriptions.cy.js",
+        "duration": 11392
+      },
+      {
+        "title": "Customer Subscriptions API Test 5: Update real_end_date and verify in DB",
+        "file": "cypress\\e2e\\customer-api\\05-subscriptions\\subscriptions.cy.js",
+        "duration": 5097
+      },
+      {
+        "title": "Customer Subscriptions API Test 6: Add a note to a subscription",
+        "file": "cypress\\e2e\\customer-api\\05-subscriptions\\subscriptions.cy.js",
+        "duration": 1061
+      },
+      {
+        "title": "Customer Subscriptions API Test 7: Update serial_number and verify in DB",
+        "file": "cypress\\e2e\\customer-api\\05-subscriptions\\subscriptions.cy.js",
+        "duration": 2765
+      },
+      {
+        "title": "Customer Subscriptions API Test 8: End subscription in DB and reactivate via API, verify in DB",
+        "file": "cypress\\e2e\\customer-api\\05-subscriptions\\subscriptions.cy.js",
+        "duration": 4294
+      },
+      {
+        "title": "Customer Subscriptions API Test 9: Toggle auto_renew ON and verify in DB",
+        "file": "cypress\\e2e\\customer-api\\05-subscriptions\\subscriptions.cy.js",
+        "duration": 1240
+      },
+      {
+        "title": "Customer Subscriptions API Test 10: Toggle auto_renew OFF and verify in DB",
+        "file": "cypress\\e2e\\customer-api\\05-subscriptions\\subscriptions.cy.js",
+        "duration": 1880
+      },
+      {
+        "title": "Draft Orders API Test 2: Fetch all draft orders and save the first ID",
+        "file": "cypress\\e2e\\customer-api\\07-draft-orders\\draft-orders.cy.js",
+        "duration": 1240
+      },
+      {
+        "title": "Draft Orders API Test 3: Fetch a specific draft order by ID",
+        "file": "cypress\\e2e\\customer-api\\07-draft-orders\\draft-orders.cy.js",
+        "duration": 1364
+      },
+      {
+        "title": "Draft Orders API Test 4: Delete a specific draft order by ID and verify in DB",
+        "file": "cypress\\e2e\\customer-api\\07-draft-orders\\draft-orders.cy.js",
+        "duration": 3439
+      },
+      {
+        "title": "Customer Payments API Test 1: Issue a one-time payment and verify invoice created in DB",
+        "file": "cypress\\e2e\\customer-api\\04-payments\\payments.cy.js",
+        "duration": 5972
+      },
+      {
+        "title": "Deliveries API Test 1: Return a list of deliveries",
+        "file": "cypress\\e2e\\customer-api\\06-deliveries\\deliveries.cy.js",
+        "duration": 1448
+      },
+      {
+        "title": "Customer Transactions API Test 1: Fetch all transactions and log details",
+        "file": "cypress\\e2e\\customer-api\\08-transactions\\transactions.cy.js",
+        "duration": 5825
+      },
+      {
+        "title": "Customer Transactions API Test 2: Fetch single transaction by ID and verify in DB",
+        "file": "cypress\\e2e\\customer-api\\08-transactions\\transactions.cy.js",
+        "duration": 1530
+      },
+      {
+        "title": "Customer Recurring Payments API Test 1: Fetch all recurring payments and log details",
+        "file": "cypress\\e2e\\customer-api\\09-recurring-payments\\recurring-payments.cy.js",
+        "duration": 1493
+      },
+      {
+        "title": "Customer Recurring Payments API Test 2: Fetch single recurring payment by ID and verify in DB",
+        "file": "cypress\\e2e\\customer-api\\09-recurring-payments\\recurring-payments.cy.js",
+        "duration": 1303
+      },
+      {
+        "title": "Customer API - Retailers Test 1: Fetch all retailers and log details",
+        "file": "cypress\\e2e\\customer-api\\12-retailers\\retailers.cy.js",
+        "duration": 1426
+      },
+      {
+        "title": "Customer API - Retailers Test 2: Fetch retailer by location_id and verify in DB",
+        "file": "cypress\\e2e\\customer-api\\12-retailers\\retailers.cy.js",
+        "duration": 1484
+      },
+      {
+        "title": "Customer API - Retailers Test 3: Create a new retailer and verify in DB",
+        "file": "cypress\\e2e\\customer-api\\12-retailers\\retailers.cy.js",
+        "duration": 1406
+      },
+      {
+        "title": "Customer API - Retailers Test 4: Update retailer and verify in DB",
+        "file": "cypress\\e2e\\customer-api\\12-retailers\\retailers.cy.js",
+        "duration": 1296
+      },
+      {
+        "title": "Customer Product Tracking API Test 1: Fetch all product tracking records and log details",
+        "file": "cypress\\e2e\\customer-api\\10-product-tracking\\product-tracking.cy.js",
+        "duration": 1691
+      },
+      {
+        "title": "Customer Product Tracking API Test 2: Fetch product tracking by serial number and verify in DB",
+        "file": "cypress\\e2e\\customer-api\\10-product-tracking\\product-tracking.cy.js",
+        "duration": 1411
+      },
+      {
+        "title": "Customer Product Tracking API Test 3: Send repair request for product tracking",
+        "file": "cypress\\e2e\\customer-api\\10-product-tracking\\product-tracking.cy.js",
+        "duration": 4312
+      },
+      {
+        "title": "Customer Product Tracking API Test 4: Send stock request for product tracking",
+        "file": "cypress\\e2e\\customer-api\\10-product-tracking\\product-tracking.cy.js",
+        "duration": 1292
+      },
+      {
+        "title": "Customer API - Vouchers Test 1: Fetch all vouchers and log details",
+        "file": "cypress\\e2e\\customer-api\\13-vouchers\\vouchers.cy.js",
+        "duration": 2645
+      },
+      {
+        "title": "Customer API - Vouchers Test 2: Fetch voucher by code and verify details",
+        "file": "cypress\\e2e\\customer-api\\13-vouchers\\vouchers.cy.js",
+        "duration": 2847
+      },
+      {
+        "title": "Customer API - Vouchers Test 3: Create a new voucher and verify via API",
+        "file": "cypress\\e2e\\customer-api\\13-vouchers\\vouchers.cy.js",
+        "duration": 3114
+      },
+      {
+        "title": "Customer API - Vouchers Test 4: Fetch the created voucher by code and verify details",
+        "file": "cypress\\e2e\\customer-api\\13-vouchers\\vouchers.cy.js",
+        "duration": 2560
+      },
+      {
+        "title": "Customer API - Vouchers Test 5: Update the created voucher and verify changes",
+        "file": "cypress\\e2e\\customer-api\\13-vouchers\\vouchers.cy.js",
+        "duration": 4388
+      },
+      {
+        "title": "Customer API - Products & Variants Test 1: Fetch all products and log details",
+        "file": "cypress\\e2e\\customer-api\\11-product\\product-variants.cy.js",
+        "duration": 1525
+      },
+      {
+        "title": "Customer API - Products & Variants Test 2: Fetch all variants and validate pagination",
+        "file": "cypress\\e2e\\customer-api\\11-product\\product-variants.cy.js",
+        "duration": 1361
+      },
+      {
+        "title": "Customer API - Products & Variants Test 3: Fetch variants by product ID and verify in DB",
+        "file": "cypress\\e2e\\customer-api\\11-product\\product-variants.cy.js",
+        "duration": 1250
+      },
+      {
+        "title": "Customer API - Products & Variants Test 4: Create a new product and verify in DB",
+        "file": "cypress\\e2e\\customer-api\\11-product\\product-variants.cy.js",
+        "duration": 1309
+      },
+      {
+        "title": "Customer API - Products & Variants Test 5: Create a variant for a product and verify in DB",
+        "file": "cypress\\e2e\\customer-api\\11-product\\product-variants.cy.js",
+        "duration": 1340
+      },
+      {
+        "title": "Customer API - Products & Variants Test 6: Update a variant stock and verify in DB",
+        "file": "cypress\\e2e\\customer-api\\11-product\\product-variants.cy.js",
+        "duration": 1327
+      },
+      {
+        "title": "Customer API - Products & Variants Test 7: Fetch variants for latest product from DB and verify via API",
+        "file": "cypress\\e2e\\customer-api\\11-product\\product-variants.cy.js",
+        "duration": 1368
+      },
+      {
+        "title": "Customer Self Service (CSS) API Test 1: Fetch subscription deliveries and verify billing_date",
+        "file": "cypress\\e2e\\customer-api\\14-css\\css.cy.js",
+        "duration": 1416
+      },
+      {
+        "title": "Customer Self Service (CSS) API Test 2: Report an issue for a subscription",
+        "file": "cypress\\e2e\\customer-api\\14-css\\css.cy.js",
+        "duration": 2655
+      },
+      {
+        "title": "Customer Self Service (CSS) API Test 3: Update shipping date for a delivery",
+        "file": "cypress\\e2e\\customer-api\\14-css\\css.cy.js",
+        "duration": 4704
+      },
+      {
+        "title": "Customer Self Service (CSS) API Test 4: Change subscription frequency",
+        "file": "cypress\\e2e\\customer-api\\14-css\\css.cy.js",
+        "duration": 19511
+      },
+      {
+        "title": "Customer Self Service (CSS) API Test 6: Cancel a subscription",
+        "file": "cypress\\e2e\\customer-api\\14-css\\css.cy.js",
+        "duration": 5727
+      },
+      {
+        "title": "Customer Self Service (CSS) API Test 7: Process buyout for a subscription with stripe payment",
+        "file": "cypress\\e2e\\customer-api\\14-css\\css.cy.js",
+        "duration": 9171
+      },
+      {
+        "title": "Customer Self Service (CSS) API Test 8: Create order by customer",
+        "file": "cypress\\e2e\\customer-api\\14-css\\css.cy.js",
+        "duration": 8726
+      },
+      {
+        "title": "Customer API - Debtist (Debt Collection) Test 1: Fetch claim by ID and verify against DB",
+        "file": "cypress\\e2e\\customer-api\\16-debtist\\debtist.cy.js",
+        "duration": 1335
+      },
+      {
+        "title": "Customer API - Debtist (Debt Collection) Test 2: Fetch claim by invoice ID",
+        "file": "cypress\\e2e\\customer-api\\16-debtist\\debtist.cy.js",
+        "duration": 1199
+      },
+      {
+        "title": "Customer API - Debtist (Debt Collection) Test 3: File a claim for an invoice (with DB setup)",
+        "file": "cypress\\e2e\\customer-api\\16-debtist\\debtist.cy.js",
+        "duration": 6325
+      },
+      {
+        "title": "Customer API - Debtist (Debt Collection) Test 4: Fetch debtist invoices",
+        "file": "cypress\\e2e\\customer-api\\16-debtist\\debtist.cy.js",
+        "duration": 1277
+      },
+      {
+        "title": "Customer API - Debtist (Debt Collection) Test 5: Fetch debtist customers",
+        "file": "cypress\\e2e\\customer-api\\16-debtist\\debtist.cy.js",
+        "duration": 1808
+      },
+      {
+        "title": "Customer API - Notes Test 1: Fetch all notes and log details",
+        "file": "cypress\\e2e\\customer-api\\15-notes\\notes.cy.js",
+        "duration": 1324
+      },
+      {
+        "title": "Customer API - Notes Test 2: Fetch note by ID and verify details",
+        "file": "cypress\\e2e\\customer-api\\15-notes\\notes.cy.js",
+        "duration": 1132
+      },
+      {
+        "title": "Customer API - Notes Test 3: Fetch notes filtered by order_id",
+        "file": "cypress\\e2e\\customer-api\\15-notes\\notes.cy.js",
+        "duration": 1765
+      },
+      {
+        "title": "Customer API - Notes Test 4: Fetch notes filtered by customer_id",
+        "file": "cypress\\e2e\\customer-api\\15-notes\\notes.cy.js",
+        "duration": 1263
+      },
+      {
+        "title": "Customer API - Notes Test 5: Fetch notes filtered by subscription_id",
+        "file": "cypress\\e2e\\customer-api\\15-notes\\notes.cy.js",
+        "duration": 1381
+      },
+      {
+        "title": "Customer Orders API - Separated Tests Using Commands Test 1: Return a paginated list of orders",
+        "file": "cypress\\e2e\\customer-api\\01-orders\\orders.cy.js",
+        "duration": 6835
+      },
+      {
+        "title": "Customer Orders API - Separated Tests Using Commands Test 2: Find order by ID from DB and verify via API",
+        "file": "cypress\\e2e\\customer-api\\01-orders\\orders.cy.js",
+        "duration": 2711
+      },
+      {
+        "title": "Customer Orders API - Separated Tests Using Commands Test 3: Create a new order with random 12-digit order_id",
+        "file": "cypress\\e2e\\customer-api\\01-orders\\orders.cy.js",
+        "duration": 4519
+      },
+      {
+        "title": "Customer Orders API - Separated Tests Using Commands Test 4: Open payment update link for a specific order",
+        "file": "cypress\\e2e\\customer-api\\01-orders\\orders.cy.js",
+        "duration": 1433
+      },
+      {
+        "title": "Customer Orders API - Separated Tests Using Commands Test 5: Fetch payment details and verify provider",
+        "file": "cypress\\e2e\\customer-api\\01-orders\\orders.cy.js",
+        "duration": 1980
+      },
+      {
+        "title": "Customer Orders API - Separated Tests Using Commands Test 6: Create a note to order and verify success",
+        "file": "cypress\\e2e\\customer-api\\01-orders\\orders.cy.js",
+        "duration": 1122
+      },
+      {
+        "title": "Customer Orders API - Separated Tests Using Commands Test 7: Fulfill order using DB order ID",
+        "file": "cypress\\e2e\\customer-api\\01-orders\\orders.cy.js",
+        "duration": 91630
+      },
+      {
+        "title": "Customer Orders API - Separated Tests Using Commands Test 8: Cancel order using DB order ID",
+        "file": "cypress\\e2e\\customer-api\\01-orders\\orders.cy.js",
+        "duration": 7600
+      },
+      {
+        "title": "Customer Orders API - Separated Tests Using Commands Test 9: Tag order using DB order ID",
+        "file": "cypress\\e2e\\customer-api\\01-orders\\orders.cy.js",
+        "duration": 2550
+      },
+      {
+        "title": "Customer Orders API - Separated Tests Using Commands Test 11: Generate invoice for invoiceable order from DB",
+        "file": "cypress\\e2e\\customer-api\\01-orders\\orders.cy.js",
+        "duration": 3623
+      },
+      {
+        "title": "Customer Orders API - Separated Tests Using Commands Test 12: Update order address using DB order ID",
+        "file": "cypress\\e2e\\customer-api\\01-orders\\orders.cy.js",
+        "duration": 1259
+      }
+    ],
+    "failures": [
+      {
+        "title": "Draft Orders API Test 1: Create a new draft order with dynamic product data and verify in DB",
+        "file": "cypress\\e2e\\customer-api\\07-draft-orders\\draft-orders.cy.js",
+        "duration": 1438,
+        "err": {
+          "message": "AssertionError: expected 400 to equal 201",
+          "stack": "AssertionError: expected 400 to equal 201\n    at Context.eval (webpack://customer-api-e2e/./cypress/e2e/customer-api/07-draft-orders/draft-orders.cy.js:47:33)"
+        }
+      },
+      {
+        "title": "Deliveries API Test 2: Returns all deliveries for a shipping date and verify in DB",
+        "file": "cypress\\e2e\\customer-api\\06-deliveries\\deliveries.cy.js",
+        "duration": 1421,
+        "err": {
+          "message": "CypressError: `cy.request()` failed on:\n\nhttps://circuly-customer-api-dev.herokuapp.com/api/2025-08/deliveries/2028-04-14\n\nThe response we received from your web server was:\n\n  > 404: Not Found\n\nThis was considered a failure because the status code was not `2xx` or `3xx`.\n\nIf you do not want status codes to cause failures pass the option: `failOnStatusCode: false`\n\n-----------------------------------------------------------\n\nThe request we sent was:\n\nMethod: GET\nURL: https://circuly-customer-api-dev.herokuapp.com/api/2025-08/deliveries/2028-04-14\nHeaders: {\n  \"Connection\": \"keep-alive\",\n  \"user-agent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36\",\n  \"accept\": \"*/*\",\n  \"authorization\": \"Basic Y2tfc2hvcGlmeV9wbzpjc19pMjQ1MWRsYzVsa2NzZ3d3MGdrcw==\",\n  \"accept-encoding\": \"gzip, deflate\"\n}\n\n-----------------------------------------------------------\n\nThe response we got was:\n\nStatus: 404 - Not Found\nHeaders: {\n  \"access-control-allow-headers\": \"\",\n  \"access-control-allow-methods\": \"HEAD, GET, POST, PUT, PATCH, DELETE\",\n  \"access-control-allow-origin\": \"*, *\",\n  \"cache-control\": \"no-cache, private\",\n  \"content-type\": \"application/json\",\n  \"date\": \"Thu, 12 Mar 2026 08:47:42 GMT\",\n  \"nel\": \"{\\\"report_to\\\":\\\"heroku-nel\\\",\\\"response_headers\\\":[\\\"Via\\\"],\\\"max_age\\\":3600,\\\"success_fraction\\\":0.01,\\\"failure_fraction\\\":0.1}\",\n  \"report-to\": \"{\\\"group\\\":\\\"heroku-nel\\\",\\\"endpoints\\\":[{\\\"url\\\":\\\"https://nel.heroku.com/reports?s=dvfB25fBsMpVBesnRudpGvJbq9xQLOUt8Yea6CnF8NU%3D\\\\u0026sid=812dcc77-0bd0-43b1-a5f1-b25750382959\\\\u0026ts=1773305261\\\"}],\\\"max_age\\\":3600}\",\n  \"reporting-endpoints\": \"heroku-nel=\\\"https://nel.heroku.com/reports?s=dvfB25fBsMpVBesnRudpGvJbq9xQLOUt8Yea6CnF8NU%3D&sid=812dcc77-0bd0-43b1-a5f1-b25750382959&ts=1773305261\\\"\",\n  \"server\": \"Heroku\",\n  \"via\": \"1.1 heroku-router\",\n  \"x-ratelimit-limit\": \"240\",\n  \"x-ratelimit-remaining\": \"231\",\n  \"content-length\": \"32\"\n}\nBody: {\n  \"message\": \"Delivery not found\"\n}\n\n\nhttps://on.cypress.io/request",
+          "stack": "CypressError: `cy.request()` failed on:\n\nhttps://circuly-customer-api-dev.herokuapp.com/api/2025-08/deliveries/2028-04-14\n\nThe response we received from your web server was:\n\n  > 404: Not Found\n\nThis was considered a failure because the status code was not `2xx` or `3xx`.\n\nIf you do not want status codes to cause failures pass the option: `failOnStatusCode: false`\n\n-----------------------------------------------------------\n\nThe request we sent was:\n\nMethod: GET\nURL: https://circuly-customer-api-dev.herokuapp.com/api/2025-08/deliveries/2028-04-14\nHeaders: {\n  \"Connection\": \"keep-alive\",\n  \"user-agent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36\",\n  \"accept\": \"*/*\",\n  \"authorization\": \"Basic Y2tfc2hvcGlmeV9wbzpjc19pMjQ1MWRsYzVsa2NzZ3d3MGdrcw==\",\n  \"accept-encoding\": \"gzip, deflate\"\n}\n\n-----------------------------------------------------------\n\nThe response we got was:\n\nStatus: 404 - Not Found\nHeaders: {\n  \"access-control-allow-headers\": \"\",\n  \"access-control-allow-methods\": \"HEAD, GET, POST, PUT, PATCH, DELETE\",\n  \"access-control-allow-origin\": \"*, *\",\n  \"cache-control\": \"no-cache, private\",\n  \"content-type\": \"application/json\",\n  \"date\": \"Thu, 12 Mar 2026 08:47:42 GMT\",\n  \"nel\": \"{\\\"report_to\\\":\\\"heroku-nel\\\",\\\"response_headers\\\":[\\\"Via\\\"],\\\"max_age\\\":3600,\\\"success_fraction\\\":0.01,\\\"failure_fraction\\\":0.1}\",\n  \"report-to\": \"{\\\"group\\\":\\\"heroku-nel\\\",\\\"endpoints\\\":[{\\\"url\\\":\\\"https://nel.heroku.com/reports?s=dvfB25fBsMpVBesnRudpGvJbq9xQLOUt8Yea6CnF8NU%3D\\\\u0026sid=812dcc77-0bd0-43b1-a5f1-b25750382959\\\\u0026ts=1773305261\\\"}],\\\"max_age\\\":3600}\",\n  \"reporting-endpoints\": \"heroku-nel=\\\"https://nel.heroku.com/reports?s=dvfB25fBsMpVBesnRudpGvJbq9xQLOUt8Yea6CnF8NU%3D&sid=812dcc77-0bd0-43b1-a5f1-b25750382959&ts=1773305261\\\"\",\n  \"server\": \"Heroku\",\n  \"via\": \"1.1 heroku-router\",\n  \"x-ratelimit-limit\": \"240\",\n  \"x-ratelimit-remaining\": \"231\",\n  \"content-length\": \"32\"\n}\nBody: {\n  \"message\": \"Delivery not found\"\n}\n\n\nhttps://on.cypress.io/request\n    at <unknown> (http://localhost:53818/__cypress/runner/cypress_runner.js:132876:72)\n    at tryCatcher (http://localhost:53818/__cypress/runner/cypress_runner.js:1830:23)\n    at Promise._settlePromiseFromHandler (http://localhost:53818/__cypress/runner/cypress_runner.js:1542:31)\n    at Promise._settlePromise (http://localhost:53818/__cypress/runner/cypress_runner.js:1599:18)\n    at Promise._settlePromise0 (http://localhost:53818/__cypress/runner/cypress_runner.js:1644:10)\n    at Promise._settlePromises (http://localhost:53818/__cypress/runner/cypress_runner.js:1724:18)\n    at _drainQueueStep (http://localhost:53818/__cypress/runner/cypress_runner.js:2430:12)\n    at _drainQueue (http://localhost:53818/__cypress/runner/cypress_runner.js:2423:9)\n    at Async._drainQueues (http://localhost:53818/__cypress/runner/cypress_runner.js:2439:5)\n    at Async.drainQueues (http://localhost:53818/__cypress/runner/cypress_runner.js:2309:14)\nFrom Your Spec Code:\n    at Context.eval (webpack://customer-api-e2e/./cypress/e2e/customer-api/06-deliveries/deliveries.cy.js:35:4)"
+        }
+      },
+      {
+        "title": "Customer Self Service (CSS) API Test 5: Perform bundle swap for a subscription",
+        "file": "cypress\\e2e\\customer-api\\14-css\\css.cy.js",
+        "duration": 1988,
+        "err": {
+          "message": "CypressError: `cy.request()` failed on:\n\nhttps://circuly-customer-api-dev.herokuapp.com/api/2025-08/css/subscriptions/6624284180618_69b1769197709_47124960510090/bundle-swap\n\nThe response we received from your web server was:\n\n  > 400: Bad Request\n\nThis was considered a failure because the status code was not `2xx` or `3xx`.\n\nIf you do not want status codes to cause failures pass the option: `failOnStatusCode: false`\n\n-----------------------------------------------------------\n\nThe request we sent was:\n\nMethod: POST\nURL: https://circuly-customer-api-dev.herokuapp.com/api/2025-08/css/subscriptions/6624284180618_69b1769197709_47124960510090/bundle-swap\nHeaders: {\n  \"Connection\": \"keep-alive\",\n  \"user-agent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36\",\n  \"accept\": \"*/*\",\n  \"authorization\": \"Basic Y2tfc2hvcGlmeV9wbzpjc19pMjQ1MWRsYzVsa2NzZ3d3MGdrcw==\",\n  \"accept-encoding\": \"gzip, deflate\",\n  \"content-type\": \"application/json\",\n  \"content-length\": 29\n}\nBody: {\"product_variant_id\":\"7891\"}\n\n-----------------------------------------------------------\n\nThe response we got was:\n\nStatus: 400 - Bad Request\nHeaders: {\n  \"access-control-allow-headers\": \"\",\n  \"access-control-allow-methods\": \"HEAD, GET, POST, PUT, PATCH, DELETE\",\n  \"access-control-allow-origin\": \"*, *\",\n  \"cache-control\": \"no-cache, private\",\n  \"content-type\": \"application/json\",\n  \"date\": \"Thu, 12 Mar 2026 08:49:18 GMT\",\n  \"nel\": \"{\\\"report_to\\\":\\\"heroku-nel\\\",\\\"response_headers\\\":[\\\"Via\\\"],\\\"max_age\\\":3600,\\\"success_fraction\\\":0.01,\\\"failure_fraction\\\":0.1}\",\n  \"report-to\": \"{\\\"group\\\":\\\"heroku-nel\\\",\\\"endpoints\\\":[{\\\"url\\\":\\\"https://nel.heroku.com/reports?s=nQzXhhfgkB0XdK1%2Fz%2FKWR6gRk038qM1DqwqF6Z46SYY%3D\\\\u0026sid=812dcc77-0bd0-43b1-a5f1-b25750382959\\\\u0026ts=1773305357\\\"}],\\\"max_age\\\":3600}\",\n  \"reporting-endpoints\": \"heroku-nel=\\\"https://nel.heroku.com/reports?s=nQzXhhfgkB0XdK1%2Fz%2FKWR6gRk038qM1DqwqF6Z46SYY%3D&sid=812dcc77-0bd0-43b1-a5f1-b25750382959&ts=1773305357\\\"\",\n  \"server\": \"Heroku\",\n  \"via\": \"1.1 heroku-router\",\n  \"x-ratelimit-limit\": \"240\",\n  \"x-ratelimit-remaining\": \"218\",\n  \"content-length\": \"198\"\n}\nBody: {\n  \"message\": \"Provided variant id does not belong to the bundle id:bundle_zcqsalsv68d6rj\",\n  \"error\": {\n    \"product_variant_id\": [\n      \"Provided variant id does not belong to the bundle id:bundle_zcqsalsv68d6rj\"\n    ]\n  }\n}\n\n\nhttps://on.cypress.io/request",
+          "stack": "CypressError: `cy.request()` failed on:\n\nhttps://circuly-customer-api-dev.herokuapp.com/api/2025-08/css/subscriptions/6624284180618_69b1769197709_47124960510090/bundle-swap\n\nThe response we received from your web server was:\n\n  > 400: Bad Request\n\nThis was considered a failure because the status code was not `2xx` or `3xx`.\n\nIf you do not want status codes to cause failures pass the option: `failOnStatusCode: false`\n\n-----------------------------------------------------------\n\nThe request we sent was:\n\nMethod: POST\nURL: https://circuly-customer-api-dev.herokuapp.com/api/2025-08/css/subscriptions/6624284180618_69b1769197709_47124960510090/bundle-swap\nHeaders: {\n  \"Connection\": \"keep-alive\",\n  \"user-agent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36\",\n  \"accept\": \"*/*\",\n  \"authorization\": \"Basic Y2tfc2hvcGlmeV9wbzpjc19pMjQ1MWRsYzVsa2NzZ3d3MGdrcw==\",\n  \"accept-encoding\": \"gzip, deflate\",\n  \"content-type\": \"application/json\",\n  \"content-length\": 29\n}\nBody: {\"product_variant_id\":\"7891\"}\n\n-----------------------------------------------------------\n\nThe response we got was:\n\nStatus: 400 - Bad Request\nHeaders: {\n  \"access-control-allow-headers\": \"\",\n  \"access-control-allow-methods\": \"HEAD, GET, POST, PUT, PATCH, DELETE\",\n  \"access-control-allow-origin\": \"*, *\",\n  \"cache-control\": \"no-cache, private\",\n  \"content-type\": \"application/json\",\n  \"date\": \"Thu, 12 Mar 2026 08:49:18 GMT\",\n  \"nel\": \"{\\\"report_to\\\":\\\"heroku-nel\\\",\\\"response_headers\\\":[\\\"Via\\\"],\\\"max_age\\\":3600,\\\"success_fraction\\\":0.01,\\\"failure_fraction\\\":0.1}\",\n  \"report-to\": \"{\\\"group\\\":\\\"heroku-nel\\\",\\\"endpoints\\\":[{\\\"url\\\":\\\"https://nel.heroku.com/reports?s=nQzXhhfgkB0XdK1%2Fz%2FKWR6gRk038qM1DqwqF6Z46SYY%3D\\\\u0026sid=812dcc77-0bd0-43b1-a5f1-b25750382959\\\\u0026ts=1773305357\\\"}],\\\"max_age\\\":3600}\",\n  \"reporting-endpoints\": \"heroku-nel=\\\"https://nel.heroku.com/reports?s=nQzXhhfgkB0XdK1%2Fz%2FKWR6gRk038qM1DqwqF6Z46SYY%3D&sid=812dcc77-0bd0-43b1-a5f1-b25750382959&ts=1773305357\\\"\",\n  \"server\": \"Heroku\",\n  \"via\": \"1.1 heroku-router\",\n  \"x-ratelimit-limit\": \"240\",\n  \"x-ratelimit-remaining\": \"218\",\n  \"content-length\": \"198\"\n}\nBody: {\n  \"message\": \"Provided variant id does not belong to the bundle id:bundle_zcqsalsv68d6rj\",\n  \"error\": {\n    \"product_variant_id\": [\n      \"Provided variant id does not belong to the bundle id:bundle_zcqsalsv68d6rj\"\n    ]\n  }\n}\n\n\nhttps://on.cypress.io/request\n    at <unknown> (http://localhost:53818/__cypress/runner/cypress_runner.js:132876:72)\n    at tryCatcher (http://localhost:53818/__cypress/runner/cypress_runner.js:1830:23)\n    at Promise._settlePromiseFromHandler (http://localhost:53818/__cypress/runner/cypress_runner.js:1542:31)\n    at Promise._settlePromise (http://localhost:53818/__cypress/runner/cypress_runner.js:1599:18)\n    at Promise._settlePromise0 (http://localhost:53818/__cypress/runner/cypress_runner.js:1644:10)\n    at Promise._settlePromises (http://localhost:53818/__cypress/runner/cypress_runner.js:1724:18)\n    at _drainQueueStep (http://localhost:53818/__cypress/runner/cypress_runner.js:2430:12)\n    at _drainQueue (http://localhost:53818/__cypress/runner/cypress_runner.js:2423:9)\n    at Async._drainQueues (http://localhost:53818/__cypress/runner/cypress_runner.js:2439:5)\n    at Async.drainQueues (http://localhost:53818/__cypress/runner/cypress_runner.js:2309:14)\nFrom Your Spec Code:\n    at Context.eval (webpack://customer-api-e2e/./cypress/e2e/customer-api/14-css/css.cy.js:116:6)"
+        }
+      },
+      {
+        "title": "Customer Orders API - Separated Tests Using Commands Test 10: Charge order using chargeable order from DB",
+        "file": "cypress\\e2e\\customer-api\\01-orders\\orders.cy.js",
+        "duration": 1328,
+        "err": {
+          "message": "CypressError: `cy.request()` failed on:\n\nhttps://circuly-customer-api-dev.herokuapp.com/api/2025-08/orders/03021842291000/charge\n\nThe response we received from your web server was:\n\n  > 404: Not Found\n\nThis was considered a failure because the status code was not `2xx` or `3xx`.\n\nIf you do not want status codes to cause failures pass the option: `failOnStatusCode: false`\n\n-----------------------------------------------------------\n\nThe request we sent was:\n\nMethod: POST\nURL: https://circuly-customer-api-dev.herokuapp.com/api/2025-08/orders/03021842291000/charge\nHeaders: {\n  \"Connection\": \"keep-alive\",\n  \"user-agent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36\",\n  \"accept\": \"*/*\",\n  \"authorization\": \"Basic Y2tfc2hvcGlmeV9wbzpjc19pMjQ1MWRsYzVsa2NzZ3d3MGdrcw==\",\n  \"accept-encoding\": \"gzip, deflate\",\n  \"content-length\": 0\n}\n\n-----------------------------------------------------------\n\nThe response we got was:\n\nStatus: 404 - Not Found\nHeaders: {\n  \"access-control-allow-headers\": \"\",\n  \"access-control-allow-methods\": \"HEAD, GET, POST, PUT, PATCH, DELETE\",\n  \"access-control-allow-origin\": \"*, *\",\n  \"cache-control\": \"no-cache, private\",\n  \"content-type\": \"application/json\",\n  \"date\": \"Thu, 12 Mar 2026 08:45:16 GMT\",\n  \"nel\": \"{\\\"report_to\\\":\\\"heroku-nel\\\",\\\"response_headers\\\":[\\\"Via\\\"],\\\"max_age\\\":3600,\\\"success_fraction\\\":0.01,\\\"failure_fraction\\\":0.1}\",\n  \"report-to\": \"{\\\"group\\\":\\\"heroku-nel\\\",\\\"endpoints\\\":[{\\\"url\\\":\\\"https://nel.heroku.com/reports?s=Kw1K1k%2BwaDzBVyaicmSiMzTi7gxVi9pwhJz%2B%2BkjE2LQ%3D\\\\u0026sid=812dcc77-0bd0-43b1-a5f1-b25750382959\\\\u0026ts=1773305115\\\"}],\\\"max_age\\\":3600}\",\n  \"reporting-endpoints\": \"heroku-nel=\\\"https://nel.heroku.com/reports?s=Kw1K1k%2BwaDzBVyaicmSiMzTi7gxVi9pwhJz%2B%2BkjE2LQ%3D&sid=812dcc77-0bd0-43b1-a5f1-b25750382959&ts=1773305115\\\"\",\n  \"server\": \"Heroku\",\n  \"via\": \"1.1 heroku-router\",\n  \"x-ratelimit-limit\": \"240\",\n  \"x-ratelimit-remaining\": \"236\",\n  \"content-length\": \"29\"\n}\nBody: {\n  \"message\": \"Order not found\"\n}\n\n\nhttps://on.cypress.io/request",
+          "stack": "CypressError: `cy.request()` failed on:\n\nhttps://circuly-customer-api-dev.herokuapp.com/api/2025-08/orders/03021842291000/charge\n\nThe response we received from your web server was:\n\n  > 404: Not Found\n\nThis was considered a failure because the status code was not `2xx` or `3xx`.\n\nIf you do not want status codes to cause failures pass the option: `failOnStatusCode: false`\n\n-----------------------------------------------------------\n\nThe request we sent was:\n\nMethod: POST\nURL: https://circuly-customer-api-dev.herokuapp.com/api/2025-08/orders/03021842291000/charge\nHeaders: {\n  \"Connection\": \"keep-alive\",\n  \"user-agent\": \"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/145.0.0.0 Safari/537.36\",\n  \"accept\": \"*/*\",\n  \"authorization\": \"Basic Y2tfc2hvcGlmeV9wbzpjc19pMjQ1MWRsYzVsa2NzZ3d3MGdrcw==\",\n  \"accept-encoding\": \"gzip, deflate\",\n  \"content-length\": 0\n}\n\n-----------------------------------------------------------\n\nThe response we got was:\n\nStatus: 404 - Not Found\nHeaders: {\n  \"access-control-allow-headers\": \"\",\n  \"access-control-allow-methods\": \"HEAD, GET, POST, PUT, PATCH, DELETE\",\n  \"access-control-allow-origin\": \"*, *\",\n  \"cache-control\": \"no-cache, private\",\n  \"content-type\": \"application/json\",\n  \"date\": \"Thu, 12 Mar 2026 08:45:16 GMT\",\n  \"nel\": \"{\\\"report_to\\\":\\\"heroku-nel\\\",\\\"response_headers\\\":[\\\"Via\\\"],\\\"max_age\\\":3600,\\\"success_fraction\\\":0.01,\\\"failure_fraction\\\":0.1}\",\n  \"report-to\": \"{\\\"group\\\":\\\"heroku-nel\\\",\\\"endpoints\\\":[{\\\"url\\\":\\\"https://nel.heroku.com/reports?s=Kw1K1k%2BwaDzBVyaicmSiMzTi7gxVi9pwhJz%2B%2BkjE2LQ%3D\\\\u0026sid=812dcc77-0bd0-43b1-a5f1-b25750382959\\\\u0026ts=1773305115\\\"}],\\\"max_age\\\":3600}\",\n  \"reporting-endpoints\": \"heroku-nel=\\\"https://nel.heroku.com/reports?s=Kw1K1k%2BwaDzBVyaicmSiMzTi7gxVi9pwhJz%2B%2BkjE2LQ%3D&sid=812dcc77-0bd0-43b1-a5f1-b25750382959&ts=1773305115\\\"\",\n  \"server\": \"Heroku\",\n  \"via\": \"1.1 heroku-router\",\n  \"x-ratelimit-limit\": \"240\",\n  \"x-ratelimit-remaining\": \"236\",\n  \"content-length\": \"29\"\n}\nBody: {\n  \"message\": \"Order not found\"\n}\n\n\nhttps://on.cypress.io/request\n    at <unknown> (http://localhost:53818/__cypress/runner/cypress_runner.js:132876:72)\n    at tryCatcher (http://localhost:53818/__cypress/runner/cypress_runner.js:1830:23)\n    at Promise._settlePromiseFromHandler (http://localhost:53818/__cypress/runner/cypress_runner.js:1542:31)\n    at Promise._settlePromise (http://localhost:53818/__cypress/runner/cypress_runner.js:1599:18)\n    at Promise._settlePromise0 (http://localhost:53818/__cypress/runner/cypress_runner.js:1644:10)\n    at Promise._settlePromises (http://localhost:53818/__cypress/runner/cypress_runner.js:1724:18)\n    at _drainQueueStep (http://localhost:53818/__cypress/runner/cypress_runner.js:2430:12)\n    at _drainQueue (http://localhost:53818/__cypress/runner/cypress_runner.js:2423:9)\n    at Async._drainQueues (http://localhost:53818/__cypress/runner/cypress_runner.js:2439:5)\n    at Async.drainQueues (http://localhost:53818/__cypress/runner/cypress_runner.js:2309:14)\nFrom Your Spec Code:\n    at Context.eval (webpack://customer-api-e2e/./cypress/e2e/customer-api/01-orders/orders.cy.js:138:6)"
+        }
+      }
+    ],
+    "stats": {
+      "suites": 16,
+      "tests": 89,
+      "passes": 85,
+      "pending": 0,
+      "failures": 4,
+      "testsRegistered": 89,
+      "passPercent": 95.50561797752809,
+      "pendingPercent": 0,
+      "other": 0,
+      "hasOther": false,
+      "skipped": 0,
+      "hasSkipped": false,
+      "start": "2026-03-12T08:43:12.223Z",
+      "end": "2026-03-12T08:50:05.108Z",
+      "duration": 412885
+    },
+    "specTotal": 47,
+    "specPasses": 47,
+    "specFailures": 0
+  }
+}

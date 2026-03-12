@@ -22,12 +22,20 @@
     "api:product-variants": "npx cypress run --browser chrome --spec \"cypress/e2e/customer-api/11-product-variants/*.cy.js\"",
     "api:retailers": "npx cypress run --browser chrome --spec \"cypress/e2e/customer-api/12-retailers/*.cy.js\"",
     "api:vouchers": "npx cypress run --browser chrome --spec \"cypress/e2e/customer-api/13-vouchers/*.cy.js\"",
-    "api:css": "npx cypress run --browser chrome --spec \"cypress/e2e/customer-api/14-css/*.cy.js\""
+    "api:css": "npx cypress run --browser chrome --spec \"cypress/e2e/customer-api/14-css/*.cy.js\"",
+    "lint": "eslint cypress/",
+    "sync-docs": "node cypress/docs/sync-test-cases.js",
+    "sync-server": "node cypress/docs/sync-server.js",
+    "docs": "start cypress/docs/TEST_CASES.html"
   },
   "devDependencies": {
     "cypress": "^13.17.0",
     "cypress-iframe": "^1.0.1",
     "cypress-mochawesome-reporter": "^3.8.2",
+    "dotenv": "^16.6.1",
+    "eslint": "^8.57.0",
+    "eslint-plugin-cypress": "^2.15.2",
+    "eslint-plugin-no-only-tests": "^3.3.0",
     "mochawesome": "^7.1.3",
     "mochawesome-merge": "^4.3.0",
     "mochawesome-report-generator": "^6.2.0",
